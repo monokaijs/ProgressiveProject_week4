@@ -20,7 +20,6 @@ public class ImageViewer extends Fragment {
   public static ImageViewer instance;
   public static int currentIndex = 0;
 
-  public List<String> imageList = new ArrayList<String>();
   public ImageViewer() {
   }
 
@@ -28,8 +27,6 @@ public class ImageViewer extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ImageViewer.instance = this;
-    imageList.add("https://i.imgur.com/FhKzmRn_d.webp?maxwidth=800&fidelity=grand");
-    imageList.add("https://i.imgur.com/LRoLTlK.jpeg");
   }
 
   @Override
@@ -66,10 +63,10 @@ public class ImageViewer extends Fragment {
     // image rotation
     // if over last index -> go to first index
     // if under first index -> go to last index
-    if (currentIndex > imageList.size() - 1) {
+    if (currentIndex > MainActivity.imageList.size() - 1) {
       currentIndex = 0;
     } else if (currentIndex < 0) {
-      currentIndex = imageList.size() - 1;
+      currentIndex = MainActivity.imageList.size() - 1;
     }
     Log.i("INDEX", String.valueOf(currentIndex));
 
@@ -79,7 +76,7 @@ public class ImageViewer extends Fragment {
     circularProgressDrawable.start();
     // load image, showing a circular progress as indicator
     Glide.with(this)
-        .load(imageList.get(currentIndex))
+        .load(MainActivity.imageList.get(currentIndex))
         .placeholder(circularProgressDrawable)
         .into(imageView);
   }

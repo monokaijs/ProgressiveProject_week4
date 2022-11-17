@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
   public static MainActivity instance;
   private AppBarConfiguration appBarConfiguration;
   private ActivityMainBinding binding;
+  public static List<String> imageList = new ArrayList<String>();
 
   // Create list of images
 
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     MainActivity.instance = this;
 
+    MainActivity.imageList.add("https://i.imgur.com/FhKzmRn_d.webp?maxwidth=800&fidelity=grand");
+    MainActivity.imageList.add("https://i.imgur.com/LRoLTlK.jpeg");
 
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
