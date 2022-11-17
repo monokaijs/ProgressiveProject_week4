@@ -49,6 +49,8 @@ public class AddLink extends Fragment {
       @Override
       public void onClick(View v) {
         ImageViewer.instance.imageList.add(currentLink);
+        Toast.makeText(MainActivity.instance, "Added New Link", Toast.LENGTH_SHORT).show();
+        MainActivity.instance.getNavController().navigate(R.id.action_addLink_to_ImageViewerFragment);
       }
     });
 
@@ -59,7 +61,10 @@ public class AddLink extends Fragment {
 
       @Override
       public void onTextChanged(CharSequence currentValue, int start, int before, int count) {
-        Log.i("IMAGE", currentValue.toString());
+      }
+
+      @Override
+      public void afterTextChanged(Editable currentValue) {
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(rootView.getContext());
         circularProgressDrawable.setStrokeWidth(5f);
         circularProgressDrawable.setCenterRadius(30f);
@@ -69,7 +74,8 @@ public class AddLink extends Fragment {
               @Override
               public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 Log.i("INVALID", "INVALID_RESOURCE");
-                btnFinish.setEnabled(false);
+                btnFinish.setEnabled(false);;
+                Toast.makeText(MainActivity.instance, "Invalid Link", Toast.LENGTH_SHORT).show();
                 return false;
               }
 
@@ -82,10 +88,6 @@ public class AddLink extends Fragment {
             })
             .placeholder(circularProgressDrawable)
             .into(imageView);
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {
       }
     });
     return rootView;
