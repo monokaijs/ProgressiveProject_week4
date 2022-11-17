@@ -9,5 +9,18 @@
     android:id="@+id/ImageViewerFragment"
     android:name="com.monokaijs.progressive1.ImageViewer"
     android:label="Image Viewer"
-    tools:layout="@layout/fragment_image_viewer" />
+    tools:layout="@layout/fragment_image_viewer" >
+    <action
+      android:id="@+id/action_ImageViewerFragment_to_addLink"
+      app:destination="@id/addLink" />
+  </fragment>
+  <fragment
+    android:id="@+id/addLink"
+    android:name="com.monokaijs.progressive1.AddLink"
+    android:label="Add Link"
+    tools:layout="@layout/fragment_add_link" >
+    <action
+      android:id="@+id/action_addLink_to_ImageViewerFragment"
+      app:destination="@id/ImageViewerFragment" />
+  </fragment>
 </navigation>
