@@ -48,7 +48,7 @@ public class AddLink extends Fragment {
     btnFinish.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        MainActivity.imageList.add(currentLink);
+        MainActivity.imageList.add(new StoredImage("url", currentLink));
         Toast.makeText(MainActivity.instance, "Added New Link", Toast.LENGTH_SHORT).show();
         MainActivity.instance.getNavController().navigate(R.id.action_addLink_to_ImageViewerFragment);
       }

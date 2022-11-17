@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
   public static MainActivity instance;
   private AppBarConfiguration appBarConfiguration;
   private ActivityMainBinding binding;
-  public static List<String> imageList = new ArrayList<String>();
+  public static List<StoredImage> imageList = new ArrayList<StoredImage>();
 
   // Create list of images
 
@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     MainActivity.instance = this;
 
-    MainActivity.imageList.add("https://i.imgur.com/FhKzmRn_d.webp?maxwidth=800&fidelity=grand");
-    MainActivity.imageList.add("https://i.imgur.com/LRoLTlK.jpeg");
+    MainActivity.imageList.add(new StoredImage("url", "https://i.imgur.com/FhKzmRn_d.webp?maxwidth=800&fidelity=grand"));
+    MainActivity.imageList.add(new StoredImage("url", "https://i.imgur.com/LRoLTlK.jpeg"));
 
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
     int id = item.getItemId();
     if (id == R.id.action_add_link) {
       getNavController().navigate(R.id.action_ImageViewerFragment_to_addLink);
-      return true;
+    }
+    if (id == R.id.action_all_links) {
+      getNavController().navigate(R.id.action_ImageViewerFragment_to_imageLinkFragment);
     }
     return super.onOptionsItemSelected(item);
   }
@@ -80,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onSupportNavigateUp() {
     NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-
-    Log.i("ACTIVITY", "NAVIGATE_UP");
     return NavigationUI.navigateUp(navController, appBarConfiguration)
         || super.onSupportNavigateUp();
   }

@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ImageViewer extends Fragment {
   public static ImageViewer instance;
@@ -54,6 +56,10 @@ public class ImageViewer extends Fragment {
 
   public void setImageIndex(int navigateIndex) {
     ImageView imageView = MainActivity.instance.findViewById(R.id.imageView);
+    if (MainActivity.imageList.size() <= 0) {
+      Toast.makeText(MainActivity.instance, "No image available", Toast.LENGTH_SHORT).show();
+      return;
+    }
     if (imageView == null) {
       Log.i("ACTIVITY", "IMAGE VIEW NOT AVAILABLE");
       return;
@@ -74,9 +80,14 @@ public class ImageViewer extends Fragment {
     circularProgressDrawable.setStrokeWidth(5f);
     circularProgressDrawable.setCenterRadius(30f);
     circularProgressDrawable.start();
+
+    StoredImage item = MainActivity.imageList.get(currentIndex);
+
     // load image, showing a circular progress as indicator
     Glide.with(this)
-        .load(MainActivity.imageList.get(currentIndex))
+        .load(
+            Objects.equals(item.type, "url") ? item.url : item.storedUrl
+        )
         .placeholder(circularProgressDrawable)
         .into(imageView);
   }
@@ -91,6 +102,8 @@ public class ImageViewer extends Fragment {
   public void onResume() {
     super.onResume();
     Log.i("ACTIVITY", "RESUME");
-    setImageIndex(0);
+    if (MainActivity.imageList.size() > 0) {
+      setImageIndex(0);
+    }
   }
 }
