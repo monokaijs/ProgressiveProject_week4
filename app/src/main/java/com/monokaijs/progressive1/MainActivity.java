@@ -3,8 +3,6 @@ package com.monokaijs.progressive1;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -22,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
   private AppBarConfiguration appBarConfiguration;
   private ActivityMainBinding binding;
 
+  // Create list of images
   public static List<String> imageList = Arrays.asList(
       "https://i.imgur.com/FhKzmRn_d.webp?maxwidth=800&fidelity=grand",
       "https://i.imgur.com/LRoLTlK.jpeg",
@@ -58,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     binding.getRoot().findViewById(R.id.btnNext).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        // go to next image
         setImageIndex(1);
       }
     });
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     binding.getRoot().findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        // go to previous image
         setImageIndex(-1);
       }
     });
@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView = findViewById(R.id.imageView);
     currentIndex = currentIndex + navigateIndex;
 
+    // image rotation
+    // if over last index -> go to first index
+    // if under first index -> go to last index
     if (currentIndex > imageList.size() - 1) {
       currentIndex = 0;
     } else if (currentIndex < 0) {
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     circularProgressDrawable.setStrokeWidth(5f);
     circularProgressDrawable.setCenterRadius(30f);
     circularProgressDrawable.start();
+    // load image, showing a circular progress as indicator
     Glide.with(this)
         .load(imageList.get(currentIndex))
         .placeholder(circularProgressDrawable)
@@ -93,23 +97,16 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_main, menu);
     return true;
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
       return true;
     }
-
     return super.onOptionsItemSelected(item);
   }
 
