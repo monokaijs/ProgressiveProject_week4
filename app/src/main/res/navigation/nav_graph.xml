@@ -8,6 +8,6 @@
   <fragment
     android:id="@+id/ImageViewerFragment"
     android:name="com.monokaijs.progressive1.ImageViewer"
-    android:label="fragment_image_viewer"
+    android:label="Image Viewer"
     tools:layout="@layout/fragment_image_viewer" />
 </navigation>
