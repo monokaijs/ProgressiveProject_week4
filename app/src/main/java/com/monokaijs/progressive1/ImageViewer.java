@@ -85,9 +85,7 @@ public class ImageViewer extends Fragment {
 
     // load image, showing a circular progress as indicator
     Glide.with(this)
-        .load(
-            Objects.equals(item.type, "url") ? item.url : item.storedUrl
-        )
+        .load(item.url)
         .placeholder(circularProgressDrawable)
         .into(imageView);
   }

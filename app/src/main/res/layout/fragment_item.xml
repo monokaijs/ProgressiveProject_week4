@@ -4,7 +4,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/linearLayout"
   android:layout_width="match_parent"
-  android:layout_height="50dp" >
+  android:layout_height="100dp"
+  android:layout_marginTop="16dp">
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="0dp"
@@ -15,33 +16,26 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <TextView
-      android:id="@+id/item_number"
-      android:layout_width="32dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="16dp"
-      android:textAppearance="?attr/textAppearanceListItem"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
       android:id="@+id/content"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="24dp"
+      android:layout_marginEnd="16dp"
       android:ellipsize="end"
       android:maxLines="1"
       android:scrollHorizontally="true"
       android:textAppearance="?attr/textAppearanceListItem"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/btnDelete"
-      app:layout_constraintStart_toEndOf="@+id/item_number"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toEndOf="@+id/imgItemPreview"
       app:layout_constraintTop_toTopOf="parent" />
 
     <Button
       android:id="@+id/btnDelete"
       android:layout_width="70dp"
       android:layout_height="40dp"
-      android:layout_marginEnd="16dp"
+      android:layout_marginStart="16dp"
       android:height="16dp"
       android:includeFontPadding="false"
       android:paddingLeft="8dp"
@@ -51,7 +45,16 @@
       android:text="DELETE"
       android:textSize="12sp"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintStart_toEndOf="@+id/imgItemPreview"
+      app:layout_constraintTop_toBottomOf="@+id/content" />
+
+    <ImageView
+      android:id="@+id/imgItemPreview"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/ic_launcher_background" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,29 @@
 package com.monokaijs.progressive1;
 
-import java.util.Objects;
-
 public class StoredImage {
+  public int id = 0;
   public String type = "url";
   public String url = "";
-  public String storedUrl = "";
   public String location = "";
+
+  public StoredImage(int id, String newType, String url, String location) {
+    this.type = newType;
+    this.url = url;
+    this.location = location;
+  }
 
   public StoredImage(String newType, String url) {
     this.type = newType;
-    if (Objects.equals(newType, "url")) {
-      this.url = url;
-    } else {
-      this.storedUrl = url;
-    }
+    this.url = url;
+  }
+
+  public StoredImage(String newType, String url, String location) {
+    this.type = newType;
+    this.url = url;
+    this.location = location;
+  }
+
+  public String getSource() {
+    return this.url;
   }
 }

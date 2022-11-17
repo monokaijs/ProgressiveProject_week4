@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.monokaijs.progressive1.placeholder.PlaceholderContent;
-
 
 public class ImageLinkFragment extends Fragment {
   private static final String ARG_COLUMN_COUNT = "column-count";
