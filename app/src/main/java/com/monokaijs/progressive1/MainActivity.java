@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity {
 
   private void showPermissionDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Permission required")
-        .setMessage("Some permissions are need to be allowed to use this app without any problems.")
+    builder.setTitle("Permission authorization")
+        .setMessage("Require you to permit some features of your device.")
         .setPositiveButton("Settings", (dialog, which) -> {
           dialog.dismiss();
         });

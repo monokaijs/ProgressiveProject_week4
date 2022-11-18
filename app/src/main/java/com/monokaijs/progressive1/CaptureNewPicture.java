@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -40,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class CaptureNewPicture extends Fragment {
   static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -59,10 +62,6 @@ public class CaptureNewPicture extends Fragment {
     }
   };
 
-  public CaptureNewPicture() {
-    // Required empty public constructor
-  }
-
   public static CaptureNewPicture newInstance(String param1, String param2) {
     CaptureNewPicture fragment = new CaptureNewPicture();
     Bundle args = new Bundle();
@@ -80,7 +79,7 @@ public class CaptureNewPicture extends Fragment {
       return;
     }
     mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-        LOCATION_REFRESH_DISTANCE, mLocationListener);
+      LOCATION_REFRESH_DISTANCE, mLocationListener);
   }
 
   @Override
@@ -99,7 +98,17 @@ public class CaptureNewPicture extends Fragment {
     btnSave.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Log.i("dsfad", currentLocation.toString());
+        String addressString = "";
+        if (currentLocation != null) {
+          Address address = getAddress(currentLocation.getLatitude(), currentLocation.getLongitude());
+          assert address != null;
+          addressString = address.getSubAdminArea() + ", " + address.getCountryName() + ", " + address.getPostalCode();
+        }
+        StoredImage storedImg = new StoredImage("stored", currentFilePath, addressString);
+        MainActivity.db.addImage(storedImg);
+        MainActivity.imageList.add(storedImg);
+        Toast.makeText(MainActivity.instance, "New Picture Stored", Toast.LENGTH_SHORT).show();
+        // MainActivity.instance.getNavController().navigate(R.id.action_addLink_to_ImageViewerFragment);
       }
     });
 
@@ -124,7 +133,8 @@ public class CaptureNewPicture extends Fragment {
         Bitmap bitmapData = (Bitmap) data.getExtras().get("data");
         imgView.setImageBitmap(bitmapData);
         btnSave.setEnabled(true);
-        String path = savePhotoToExternalStorage("test", bitmapData);
+        Date date = new Date();
+        String path = savePhotoToExternalStorage(String.valueOf(date.getTime()), bitmapData);
         currentFilePath = path;
         Log.i("OUTPUT", path);
       }
@@ -134,7 +144,6 @@ public class CaptureNewPicture extends Fragment {
   private String savePhotoToExternalStorage(String name, Bitmap bmp) {
     File pictureFile = getOutputMediaFile(name);
     if (pictureFile == null) {
-      Log.d("ERROR", "Error creating media file, check storage permissions: ");// e.getMessage());
       return "";
     }
     try {
@@ -142,34 +151,44 @@ public class CaptureNewPicture extends Fragment {
       bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
       fos.close();
     } catch (FileNotFoundException e) {
-      Log.d("ERROR", "File not found: " + e.getMessage());
+      Log.d("ERROR", "Not found: " + e.getMessage());
     } catch (IOException e) {
-      Log.d("ERROR", "Error accessing file: " + e.getMessage());
+      Log.d("ERROR", "Accessing file: " + e.getMessage());
     }
 
     return pictureFile.getAbsolutePath();
   }
 
-  private File getOutputMediaFile(String name){
-    // To be safe, you should check that the SDCard is mounted
-    // using Environment.getExternalStorageState() before doing this.
+  private File getOutputMediaFile(String name) {
     File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-        + "/Android/data/"
-        + MainActivity.instance.getApplicationContext().getPackageName()
-        + "/Files");
-    if (! mediaStorageDir.exists()){
-      if (! mediaStorageDir.mkdirs()){
+      + "/Android/data/"
+      + MainActivity.instance.getApplicationContext().getPackageName()
+      + "/Files");
+    if (!mediaStorageDir.exists()) {
+      if (!mediaStorageDir.mkdirs()) {
         return null;
       }
     }
     File mediaFile;
-    String mImageName="MI_"+ name +".jpg";
-    mediaFile = new File(mediaStorageDir.getPath() + File.separator + mImageName);
-    return mediaFile;
+    String storedFileName = "MI_" + name + ".jpg";
+    return new File(mediaStorageDir.getPath() + File.separator + storedFileName);
   }
 
   public void dispatchCamera() {
     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+  }
+
+  private Address getAddress(double latitude, double longitude) {
+    MainActivity mContext = MainActivity.instance;
+    try {
+      if (mContext == null) return null;
+      Geocoder gc = new Geocoder(mContext);
+      List<Address> list = gc.getFromLocation(latitude, longitude, 1);
+      if (list != null && list.size() > 0) return list.get(0);
+    } catch (Exception e) {
+      Log.e("ERROR", e.getMessage());
+    }
+    return null;
   }
 }

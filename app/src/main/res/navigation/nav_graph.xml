@@ -37,6 +37,6 @@
   <fragment
     android:id="@+id/captureNewPicture"
     android:name="com.monokaijs.progressive1.CaptureNewPicture"
-    android:label="fragment_capture_new_picture"
+    android:label="Capture New Picture"
     tools:layout="@layout/fragment_capture_new_picture" />
 </navigation>
