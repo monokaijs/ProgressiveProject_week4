@@ -16,6 +16,9 @@
     <action
       android:id="@+id/action_ImageViewerFragment_to_imageLinkFragment"
       app:destination="@id/imageLinkFragment" />
+    <action
+      android:id="@+id/action_ImageViewerFragment_to_captureNewPicture"
+      app:destination="@id/captureNewPicture" />
   </fragment>
   <fragment
     android:id="@+id/addLink"
@@ -31,4 +34,9 @@
     android:name="com.monokaijs.progressive1.ImageLinkFragment"
     android:label="fragment_item_list"
     tools:layout="@layout/fragment_item_list" />
+  <fragment
+    android:id="@+id/captureNewPicture"
+    android:name="com.monokaijs.progressive1.CaptureNewPicture"
+    android:label="fragment_capture_new_picture"
+    tools:layout="@layout/fragment_capture_new_picture" />
 </navigation>

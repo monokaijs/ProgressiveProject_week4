@@ -12,4 +12,9 @@
     android:orderInCategory="100"
     android:title="@string/action_all_links"
     app:showAsAction="never" />
+  <item
+    android:id="@+id/capture_new"
+    android:orderInCategory="100"
+    android:title="Capture New Picture"
+    app:showAsAction="never" />
 </menu>
